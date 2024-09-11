@@ -15,7 +15,7 @@ insert into EMP (EID,ENAME,DEPARTMENT,SALARY,JoiningDate,CITY) VALUES
 (106,'Priya','it',9000,'1990-oct-18','Ahmedabad'),
 (107,'Bhoomi','hr',34000,'1991-dec-25','Rajkot')
 
---Part – A:
+--Part â€“ A:
 --1. Display the Highest, Lowest, Label the columns Maximum, Minimum respectively.
 select MAX(SALARY) AS MAXIMUM,MIN(SALARY) AS MINIMUM FROM EMP
 --2. Display Total, and Average salary of all employees. Label the columns Total_Sal and Average_Sal, respectively.
@@ -46,7 +46,10 @@ SELECT DEPARTMENT,MIN(SALARY) FROM EMP GROUP BY DEPARTMENT
 SELECT CITY,COUNT(EID) FROM EMP GROUP BY CITY
 --15. Give total salary of each department of EMP table.
 SELECT DEPARTMENT,SUM(SALARY) AS TOTAL_SAL FROM EMP GROUP BY DEPARTMENT
---16. Give average salary of each department of EMP table without displaying the respective department name.SELECT AVG(SALARY) AS AVG_SAL FROM EMP GROUP BY DEPARTMENT--Part – B:
+--16. Give average salary of each department of EMP table without displaying the respective department name.
+SELECT AVG(SALARY) AS AVG_SAL FROM EMP GROUP BY DEPARTMENT
+
+--Part â€“ B:
 --1. Count the number of employees living in Rajkot.
 SELECT COUNT(EID) FROM EMP WHERE CITY = 'RAJKOT'
 --2. Display the difference between the highest and lowest salaries. Label the column DIFFERENCE.
@@ -54,10 +57,12 @@ SELECT MAX(SALARY)-MIN(SALARY) AS DIFFERENCE FROM EMP
 --3. Display the total number of employees hired before 1st January, 1991.
 SELECT COUNT(EID) FROM EMP WHERE JoiningDate > '1991-JAN-1'
 
---Part – C:
+--Part â€“ C:
 --1. Count the number of employees living in Rajkot or Baroda.
 SELECT COUNT(EID) FROM EMP WHERE CITY = 'RAJKOT' OR CITY = 'BARODA'
 --2. Display the total number of employees hired before 1st January, 1991 in IT department.
 SELECT COUNT(EID) FROM EMP WHERE JoiningDate<'1991-JAN-1' AND DEPARTMENT = 'IT'
 --3. Find the Joining Date wise Total Salaries.
-SELECT  JoiningDate,SUM(SALARY) FROM EMP GROUP BY JoiningDate--4. Find the Maximum salary department & city wise in which city name starts with ‘R’.SELECT DEPARTMENT,CITY,MAX(SALARY) FROM EMP WHERE CITY LIKE 'R%' GROUP BY DEPARTMENT,CITY
+SELECT  JoiningDate,SUM(SALARY) FROM EMP GROUP BY JoiningDate
+--4. Find the Maximum salary department & city wise in which city name starts with â€˜Râ€™.
+SELECT DEPARTMENT,CITY,MAX(SALARY) FROM EMP WHERE CITY LIKE 'R%' GROUP BY DEPARTMENT,CITY
