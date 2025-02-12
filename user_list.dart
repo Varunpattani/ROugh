@@ -241,86 +241,111 @@ class _RailState extends State<Rail> {
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(12.0),
-                            child: Stack(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Column(
+                                Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      'Full Name: ${filteredList[index]['fullName']} (${calculateAge(filteredList[index]['dob'])} years)',
-                                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                                    Expanded(
+                                      child: Text(
+                                        'Full Name: ${filteredList[index]['fullName']} (${calculateAge(filteredList[index]['dob'])} years)',
+                                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                                      ),
                                     ),
-                                    Text('Email: ${filteredList[index]['email']}'),
-                                    Text('Mobile: ${filteredList[index]['mo']}'),
-                                    Text('Date of Birth: ${filteredList[index]['dob']}'),
-                                    Text('City: ${filteredList[index]['city']}'),
-                                    Text('Gender: ${filteredList[index]['gender']}'),
-                                    SizedBox(height: 10),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) => ViewMore(userData: filteredList[index]),
-                                              ),
-                                            );
-                                          },
-                                          style: TextButton.styleFrom(backgroundColor: Color(0xFF728E09)),
-                                          child: Text(
-                                            'View More',
-                                            style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                        SizedBox(width: 15),
-                                        IconButton(
-                                          icon: Icon(Icons.edit),
-                                          onPressed: () {
-                                            Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                              return AddEdit(userData: filteredList[index]);
-                                            })).then((updatedValue) {
-                                              if (updatedValue != null) {
-                                                setState(() {
-                                                  userList[userList.indexOf(filteredList[index])] = updatedValue;
-                                                });
-                                              }
-                                            });
-                                          },
-                                        ),
-                                        SizedBox(width: 15),
-                                        IconButton(
-                                          icon: Icon(Icons.delete),
-                                          onPressed: () {
-                                            setState(() {
-                                              userList.removeAt(userList.indexOf(filteredList[index]));
-                                            });
-                                          },
-                                        ),
-                                      ],
+                                    IconButton(
+                                      icon: Icon(
+                                        filteredList[index]['isFav'] ? Icons.favorite : Icons.favorite_border,
+                                        color: filteredList[index]['isFav'] ? Color(0xFF728E09) : Colors.grey,
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          filteredList[index]['isFav'] = !filteredList[index]['isFav'];
+                                        });
+                                      },
                                     ),
                                   ],
                                 ),
-                                Positioned(
-                                  top: 0,
-                                  right: 0,
-                                  child: IconButton(
-                                    icon: Icon(
-                                      filteredList[index]['isFav'] ? Icons.favorite : Icons.favorite_border,
-                                      color: filteredList[index]['isFav'] ? Color(0xFF728E09) : Colors.grey,
+                                SizedBox(height: 5), // Added space
+                                Text('Email: ${filteredList[index]['email']}'),
+                                Text('Mobile: ${filteredList[index]['mo']}'),
+                                Text('Date of Birth: ${filteredList[index]['dob']}'),
+                                Text('City: ${filteredList[index]['city']}'),
+                                Text('Gender: ${filteredList[index]['gender']}'),
+                                SizedBox(height: 10), // Added space before buttons
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => ViewMore(userData: filteredList[index]),
+                                          ),
+                                        );
+                                      },
+                                      style: TextButton.styleFrom(backgroundColor: Color(0xFF728E09)),
+                                      child: Text(
+                                        'View More',
+                                        style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
+                                      ),
                                     ),
-                                    onPressed: () {
-                                      setState(() {
-                                        filteredList[index]['isFav'] = !filteredList[index]['isFav'];
-                                      });
-                                    },
-                                  ),
+                                    SizedBox(width: 15),
+                                    IconButton(
+                                      icon: Icon(Icons.edit),
+                                      onPressed: () {
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                          return AddEdit(userData: filteredList[index]);
+                                        })).then((updatedValue) {
+                                          if (updatedValue != null) {
+                                            setState(() {
+                                              userList[userList.indexOf(filteredList[index])] = updatedValue;
+                                            });
+                                          }
+                                        });
+                                      },
+                                    ),
+                                    SizedBox(width: 15),
+                                    IconButton(
+                                      icon: Icon(Icons.delete),
+                                        onPressed: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                title: Text("Confirm Delete"),
+                                                content: Text("Are you sure you want to delete this user?"),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      Navigator.of(context).pop(); // Close the dialog
+                                                    },
+                                                    child: Text("Cancel"),
+                                                  ),
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        userList.removeAt(userList.indexOf(filteredList[index]));
+                                                      });
+                                                      Navigator.of(context).pop(); // Close the dialog
+                                                    },
+                                                    child: Text("Delete", style: TextStyle(color: Colors.red)),
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
+                                        },
+
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
                           ),
                         );
+
                       },
                     ),
                   ),
