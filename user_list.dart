@@ -82,6 +82,8 @@ class _RailState extends State<Rail> {
               child: SizedBox(
                 height: MediaQuery.of(context).size.height, // Fixed height for scrollable menu
                 child: SingleChildScrollView(
+                  primary: false,
+                  physics: NeverScrollableScrollPhysics(),
                   child: Container(
                     padding: EdgeInsets.symmetric(vertical: 24),
                     child: Column(
